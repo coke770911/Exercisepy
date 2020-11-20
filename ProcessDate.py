@@ -1,5 +1,6 @@
 import datetime
 import time
+import keyboard
 
 def main():
     StartDate = time.strptime("2021/1/1", "%Y/%m/%d")
@@ -14,3 +15,14 @@ def main():
         print (StartDate + RangeDate)
         print ("_______________")
         StartDate = StartDate + RangeDate
+
+
+while True:  # making a loop
+    try:  # used try so that if user pressed other than the given key error will not be shown
+        if keyboard.is_pressed('q'):  # if key 'q' is pressed 
+            print('You Pressed A Key!')
+            break  # finishing the loop
+        else:
+            print ("A")
+    except:
+        break  # if user pressed a key other than the given key the loop will break
