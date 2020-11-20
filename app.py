@@ -1,21 +1,24 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-import datetime
 import time
 
-def main():
-    StartDate = time.strptime("2021/1/1", "%Y/%m/%d")
-    EndDate = time.strptime("2021/7/1", "%Y/%m/%d")
-    StartDate = datetime.date(StartDate[0], StartDate[1], StartDate[2])
-    EndDate =  datetime.date(EndDate[0], EndDate[1], EndDate[2])
-    RangeDate = datetime.timedelta(days = 7)
 
+options = Options()
+options.add_argument("--disable-notifications")
+ 
+chrome = webdriver.Chrome('chromedriver', chrome_options=options)
+chrome.get("https://www.citibank.com.tw/sim/zh-tw/credit-cards/epp-form.htm")
 
-    while StartDate <= EndDate:
-        print (StartDate)
-        print (StartDate + RangeDate)
-        print ("_______________")
-        StartDate = StartDate + RangeDate
+cardnumber = chrome.find_element_by_id("cardnumber")
+annual_above = chrome.find_element_by_id("annual_above")
+ID = chrome.find_element_by_id("ID")
+check = chrome.find_element_by_xpath("//input[@value='202011elife2000']")
+submit = chrome.find_element_by_class_name('submit')
 
-main()
+annual_above.click()
+cardnumber.send_keys("1234")
+ID.send_keys("123456789")
+check.click()
+submit.click()
+
+chrome.switch_to_alert().accept() 
