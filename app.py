@@ -1,20 +1,23 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import time
 import keyboard
 
-options = webdriver.ChromeOptions()
+set_options = Options()
 #背景執行
-#options.add_argument('--headless')
+#set_options.add_argument('--headless')
 #指定瀏覽器解析度 
-#options.add_argument('window-size=1920x1000')
+#set_options.add_argument('window-size=1920x1000')
 #啟動就最大化
-options.add_argument('--start-maximized')
+set_options.add_argument('--start-maximized')
 #不加載圖片, 提升速度
-options.add_argument('blink-settings=imagesEnabled=false') 
+set_options.add_argument('blink-settings=imagesEnabled=false') 
 #以最高權限運行
-options.add_argument('--no-sandbox')
+set_options.add_argument('--no-sandbox')
 #加上這個屬性來規避bug
-options.add_argument('--disable-gpu')
+set_options.add_argument('--disable-gpu')
+#去除錯誤
+set_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
 while True:  
     try:  # used try so that if user pressed other than the given key error will not be shown
@@ -23,7 +26,7 @@ while True:
             break  # finishing the loop
         else:
             #放入要重複執行的程式碼    
-            chrome = webdriver.Chrome(chrome_options=options)
+            chrome = webdriver.Chrome(options=set_options)
             chrome.get("https://www.citibank.com.tw/sim/zh-tw/credit-cards/epp-form.htm")
             cardnumber = chrome.find_element_by_id("cardnumber")
             annual_above = chrome.find_element_by_id("annual_above")
@@ -36,12 +39,12 @@ while True:
             check.click()
             submit.click()
             time.sleep(1)
-            chrome.switch_to_alert().accept()
+            chrome.switch_to.alert.accept() 
             time.sleep(1)
             #關閉分頁
-            #chrome.close()
-            #關閉瀏覽器
-            chrome.quit()            
+            #chrome.close()    
+            #關閉瀏覽器 
+            chrome.quit()   
     except:
         break  # if user pressed a key other than the given key the loop will break
 
