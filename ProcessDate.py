@@ -1,7 +1,7 @@
 import datetime
 import time
 import keyboard
-
+#時間處理函式
 def main():
     StartDate = time.strptime("2021/1/1", "%Y/%m/%d")
     EndDate = time.strptime("2021/7/1", "%Y/%m/%d")
