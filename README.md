@@ -3,6 +3,6 @@
 
 ##依存套件
 - 安裝 pip install selenium
-- 依照電腦版本 https://pypi.org/ 安裝 selenium chromedriver版本
-- 安裝 pip installBeautifulSoup 剖析HTML Tag
-- 增加 pip install dotenv 讀取.env
+- 安裝 selenium 瀏覽器driver 網址為https://pypi.org/ 搜尋列輸入 selenium 依照電腦版瀏覽器driver版本下載放在根目錄
+- 安裝 pip install BeautifulSoup 剖析HTML Tag
+- 安裝 pip install dotenv 用來讀取.env 系統環境變數

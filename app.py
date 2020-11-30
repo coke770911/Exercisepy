@@ -1,41 +1,47 @@
-import os
-from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
 import time
 import keyboard
 
-load_dotenv()
-options = Options()
-options.add_argument("--disable-notifications")
+options = webdriver.ChromeOptions()
+#背景執行
+#options.add_argument('--headless')
+#指定瀏覽器解析度 
+#options.add_argument('window-size=1920x1000')
+#啟動就最大化
+options.add_argument('--start-maximized')
+#不加載圖片, 提升速度
+options.add_argument('blink-settings=imagesEnabled=false') 
+#以最高權限運行
+options.add_argument('--no-sandbox')
+#加上這個屬性來規避bug
+options.add_argument('--disable-gpu')
 
-chrome = webdriver.Chrome('chromedriver', chrome_options=options)
-chrome.get("https://www.facebook.com/")
+while True:  
+    try:  # used try so that if user pressed other than the given key error will not be shown
+        if keyboard.is_pressed('q'):  # if key 'q' is pressed 
+            print('You Pressed A Key!')
+            break  # finishing the loop
+        else:
+            #放入要重複執行的程式碼    
+            chrome = webdriver.Chrome(chrome_options=options)
+            chrome.get("https://www.citibank.com.tw/sim/zh-tw/credit-cards/epp-form.htm")
+            cardnumber = chrome.find_element_by_id("cardnumber")
+            annual_above = chrome.find_element_by_id("annual_above")
+            ID = chrome.find_element_by_id("ID")
+            check = chrome.find_element_by_xpath("//input[@value='202011elife2000']")
+            submit = chrome.find_element_by_class_name('submit')
+            annual_above.click()
+            cardnumber.send_keys("1234")
+            ID.send_keys("123456789")
+            check.click()
+            submit.click()
+            time.sleep(1)
+            chrome.switch_to_alert().accept()
+            time.sleep(1)
+            #關閉分頁
+            #chrome.close()
+            #關閉瀏覽器
+            chrome.quit()            
+    except:
+        break  # if user pressed a key other than the given key the loop will break
 
-sel_email = chrome.find_element_by_id("email")
-sel_password = chrome.find_element_by_id("pass")
-
-
-sel_email.send_keys(os.getenv('EMAIL'))
-sel_password.send_keys(os.getenv('PASSWORD'))
-
-time.sleep(1)
-
-sel_password.submit()
-
-time.sleep(3)
-chrome.get('https://www.facebook.com/'+os.getenv('ACCOUNT'))
-
-for x in range(1, 4):
-    chrome.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-    time.sleep(5)
-
-soup = BeautifulSoup(chrome.page_source, 'html.parser')
-contents = soup.find_all('div', {'class': 'pybr56ya dati1w0a hv4rvrfc n851cfcs btwxx1t3 j83agx80 ll8tlv6m'})
-
-
-for content in contents:
-    print(content.find_all('div', {'class': 'kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql ii04i59q'}).getText())
-    
-chrome.close()
